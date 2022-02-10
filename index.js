@@ -38,7 +38,7 @@ client.on("ready", () => {
 //     }
 // });
 
-users = ["Yuki", "Tris", "Daniel"];
+users = [];
 subscribers = [];
 running = false;
 checker = undefined;
