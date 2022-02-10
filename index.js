@@ -3,6 +3,7 @@ const client = new Client({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 });
 const { token, bserApiKey } = require("./config.json");
+require("dotenv").config();
 
 const axios = require("axios");
 const axiosThrottle = require("axios-request-throttle");
@@ -112,7 +113,7 @@ client.on("messageCreate", async (interaction) => {
     }
 });
 
-client.login(token);
+client.login(process.env.TOKEN);
 
 const check = async () => {
     for (i = users.length - 1; i >= 0; i -= 1) {
@@ -120,7 +121,7 @@ const check = async () => {
         const { data: playerData } = await axios.get(
             `${baseRequestURL}/v1/user/nickname?query=${user}`,
             {
-                headers: { "x-api-key": bserApiKey },
+                headers: { "x-api-key": process.env.BSER_API_KEY },
             }
         );
 
