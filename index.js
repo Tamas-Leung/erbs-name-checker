@@ -115,22 +115,24 @@ client.on("messageCreate", async (interaction) => {
 client.login(process.env.TOKEN);
 
 const check = async () => {
-    for (i = users.length - 1; i >= 0; i -= 1) {
-        user = users[i];
-        const { data: playerData } = await axios.get(
-            `${baseRequestURL}/v1/user/nickname?query=${user}`,
-            {
-                headers: { "x-api-key": process.env.BSER_API_KEY },
-            }
-        );
+    try {
+        for (i = users.length - 1; i >= 0; i -= 1) {
+            user = users[i];
+            const { data: playerData } = await axios.get(
+                `${baseRequestURL}/v1/user/nickname?query=${user}`,
+                {
+                    headers: { "x-api-key": process.env.BSER_API_KEY },
+                }
+            );
 
-        if (playerData.code == 404) {
-            subscribers.forEach((sub) => {
-                interaction.channel.send(
-                    `${sub.toString()} Username ${user} no longer exists`
-                );
-            });
-            users.splice(i, 1);
+            if (playerData.code == 404) {
+                subscribers.forEach((sub) => {
+                    interaction.channel.send(
+                        `${sub.toString()} Username ${user} no longer exists`
+                    );
+                });
+                users.splice(i, 1);
+            }
         }
-    }
+    } catch (e) {}
 };
